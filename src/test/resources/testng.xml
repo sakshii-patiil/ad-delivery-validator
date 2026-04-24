@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Ad Delivery Validation Suite" parallel="methods" thread-count="4" verbose="1">
+
+    <test name="VAST 3.0 / VMAP Contract Tests">
+        <classes>
+            <class name="com.disney.ads.AdDeliveryTest"/>
+        </classes>
+    </test>
+
+    <test name="Ad Pod Sequencing and Frequency Cap Tests">
+        <classes>
+            <class name="com.disney.ads.AdPodSequencingTest"/>
+        </classes>
+    </test>
+
+</suite>
