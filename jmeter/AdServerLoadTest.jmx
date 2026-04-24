@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0">
+  <hashTree>
+    <TestPlan testname="Ad Server Load Test — 500 Concurrent" enabled="true">
+      <stringProp name="TestPlan.comments">Validates p95 SLA under 500 concurrent users</stringProp>
+      <hashTree>
+        <ThreadGroup testname="500 Concurrent Ad Requests" enabled="true">
+          <stringProp name="ThreadGroup.num_threads">500</stringProp>
+          <stringProp name="ThreadGroup.ramp_time">30</stringProp>
+          <stringProp name="ThreadGroup.duration">120</stringProp>
+          <boolProp name="ThreadGroup.scheduler">true</boolProp>
+          <hashTree>
+            <HTTPSamplerProxy testname="GET /vast/v3" enabled="true">
+              <stringProp name="HTTPSampler.domain">${__P(adserver.url,mock-ad-server)}</stringProp>
+              <stringProp name="HTTPSampler.port">8080</stringProp>
+              <stringProp name="HTTPSampler.path">/vast/v3</stringProp>
+              <stringProp name="HTTPSampler.method">GET</stringProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="ad_unit" elementType="HTTPArgument">
+                    <stringProp name="Argument.name">ad_unit</stringProp>
+                    <stringProp name="Argument.value">preroll</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <hashTree/>
+            </HTTPSamplerProxy>
+            <ResponseAssertion testname="HTTP 200 Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp>200</stringProp>
+              </collectionProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <DurationAssertion testname="p95 SLA 200ms" enabled="true">
+              <stringProp name="DurationAssertion.duration">200</stringProp>
+            </DurationAssertion>
+          </hashTree>
+        </ThreadGroup>
+      </hashTree>
+    </TestPlan>
+  </hashTree>
+</jmeterTestPlan>
